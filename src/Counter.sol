@@ -1,33 +1,28 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.20;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "forge-std/console.sol";
 
 contract Counter is Ownable {
-    uint256 public val1;
-    uint256 public val2;
-    string public word;
+    uint256 public foo;
+    string public bar;
 
-    constructor(uint256 _val1, uint256 _val2, string memory _word) {
-        val1 = _val1;
-        val2 = _val2;
-        word = _word;
+    constructor(uint256 _foo, string memory _bar) Ownable(msg.sender) {
+        foo = _foo;
+        bar = _bar;
     }
 
-    function setVal1(uint256 _val1) public {
-        val1 = _val1;
+    function setFoo(uint256 newFoo) public onlyOwner {
+        foo = newFoo;
     }
 
-    function setWord(string memory _word) public {
-        if (
-            keccak256(abi.encodePacked(_word)) ==
-            keccak256(abi.encodePacked("bar"))
-        ) word = "foo";
-        else word = _word;
+    function setBar(string memory newBar) public onlyOwner {
+        if (keccak256(abi.encodePacked(bar)) != keccak256(abi.encodePacked(newBar))) {
+            bar = newBar;
+        }
     }
 
-    function incrementVal1() public {
-        val1++;
+    function incrementFoo() public onlyOwner {
+        foo++;
     }
 }

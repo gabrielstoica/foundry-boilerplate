@@ -1,35 +1,30 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.13;
+pragma solidity ^0.8.20;
 
-import "forge-std/Test.sol";
+import { Base_Test } from "./Base.t.sol";
 import "../src/Counter.sol";
 
-contract CounterTest is Test {
-    Counter public counter;
-
-    function setUp() public {
-        counter = new Counter(0, 0, "bar");
+contract CounterTest is Base_Test {
+    function setUp() public override {
+        counter = deployCounter(1, "bar");
     }
 
     function testIncrement() public {
-        counter.incrementVal1();
-        assertEq(counter.val1(), 1);
+        uint256 oldFoo = counter.foo();
+        counter.incrementFoo();
+        uint256 newFoo = counter.foo();
+        assertEq(oldFoo + 1, newFoo);
     }
 
     // fuzz test
     function testFuzz_setNumber(uint256 x) public {
-        counter.setVal1(x);
-        assertEq(counter.val1(), x);
+        counter.setFoo(x);
+        assertEq(counter.foo(), x);
     }
 
     // fuzz test
     function testFuzz_setWord(string memory x) public {
-        counter.setWord(x);
-        assertEq(counter.word(), x);
-    }
-
-    // invariant tests are denoted by prefixing the function name with invariant
-    function invariant_val2() public {
-        assertEq(counter.val2(), 0);
+        counter.setBar(x);
+        assertEq(counter.bar(), x);
     }
 }
