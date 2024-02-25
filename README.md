@@ -4,7 +4,8 @@ Simple boilerplate for getting started quickly developing Foundry projects.
 
 ## Getting started
 
-Make sure to read the [installation guide](https://book.getfoundry.sh/getting-started/installation) if this is the first time when using Foundry. 
+Make sure to read the [installation guide](https://book.getfoundry.sh/getting-started/installation) if this is the first
+time when using Foundry.
 
 Create a new Foundry project based on this template using the following command:
 
@@ -14,16 +15,18 @@ cd myProject
 forge compile
 ```
 
-## Features 
+## Features
 
-The `foundry.toml` file contains the most used foundry configurations in order to interact with custom `rpc_endpoints`, verify your smart contracts on `etehrscan` or adjust the `verbosity` level and the amount of fuzz `runs`. 
+The `foundry.toml` file contains the most used foundry configurations in order to interact with custom `rpc_endpoints`,
+verify your smart contracts on `etehrscan` or adjust the `verbosity` level and the amount of fuzz `runs`.
 
-In order to update the `rpc_endpoints`, create a new `.env` file based on the existing `.env.example` file and customize it to your needs. Currently, there are only two `rpc_endpoints` available: mainnet and goerli:
+In order to update the `rpc_endpoints`, create a new `.env` file based on the existing `.env.example` file and customize
+it to your needs. Currently, there are only two `rpc_endpoints` available: mainnet and sepolia:
 
 ```bash
 [rpc_endpoints]
 mainnet = "${MAINNET_RPC_URL}"
-goerli = "${GOERLI_RPC_URL}"
+sepolia = "${SEPOLIA_RPC_URL}"
 ```
 
 ## Usage
@@ -62,31 +65,23 @@ forge test
 
 ### Deploy
 
-Use the following command to deploy the smart contract on a testnet/mainnet:
+Use the following command to deploy the smart contract on Sepolia testnet:
 
 ```bash
-forge create --rpc-url $GOERLI_RPC_URL \
-    --constructor-args 0 0 "bar" \
-    --private-key $PRIVATE_KEY \
-    --etherscan-api-key $ETHERSCAN_API_KEY \
-    --verify \
-    src/Counter.sol:Counter
-```
-
-or run the deployer script:
-
-```bash
-forge script script/Counter.s.sol:Counter --rpc-url $GOERLI_RPC_URL --broadcast --verify -vvvv
+forge script script/Counter.s.sol FOO_VALUE BAR_VALUE --sig "run(uint256,string)" --rpc-url sepolia --broadcast --verify
 ```
 
 ### If you want to test the deployment process locally:
+
 1. Start [Anvil](https://book.getfoundry.sh/anvil/):
+
 ```bash
 anvil
 ```
+
 2. Update the `.env` file with a private key given to you by Anvil.
 3. Run the deployment command:
-```bash
-forge script script/Counter.s.sol:Counter --fork-url http://localhost:8545 --broadcast
-```
 
+```bash
+forge script script/Counter.s.sol:Counter FOO_VALUE BAR_VALUE --sig "run(uint256,string)" --fork-url http://localhost:8545 --broadcast
+```
